@@ -1,0 +1,52 @@
+<section id="appointment" class="appointment section-bg">
+    <div class="container">
+
+        <div class="section-title">
+            <h2>Креирај дијагноза</h2>
+            <h5>Преку оваа форма докторот може да креира дијагнози на пациенти.</h5>
+        </div>
+
+        <form action="/diagnoses/add" method="POST" role="form" class="php-email-form">
+            <div class="row">
+                <input id="id" type="hidden" name="id" th:value="(${diagnose} != null ? ${diagnose.getDiagnoseId()} : '')">
+                <div class="form-group">
+                    <label for="diagnoseName">Име на дијагнозата</label>
+                    <input type="text"
+                           class="form-control"
+                           id="diagnoseName"
+                           name="diagnoseName"
+                           th:value="(${diagnose} != null ? ${diagnose.getName()} : '')"
+                           required
+                           placeholder="Внесете го името на дијагнозата...">
+                </div>
+                <div class="form-group">
+                    <label for="termOfVisit">Преглед</label>
+                    <select name="termOfVisit" id="termOfVisit" class="form-control">
+                        <option th:each="visit : ${visits}"
+                                th:value="${visit.getTerm()}"
+                                th:if="${visit.getTerm() < date}"
+                                th:text = "${visit.getTerm()} + ' - ' + ${visit.getDoctor().getNameAndSurname}">
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="diagnoseDescription">Опис на дијагнозата</label>
+                    <input type="text"
+                           class="form-control"
+                           id="diagnoseDescription"
+                           name="diagnoseDescription"
+                           th:value="(${diagnose} != null ? ${diagnose.getDescription()} : '')"
+                           required
+                           placeholder="Внесете го описот на дијагнозата...">
+                </div>
+                <div class="container">
+                    <h6 class="text-danger" th:if="${hasError}" th:text="${error}"></h6>
+                </div>
+                <button id="submit" type="submit" class="btn btn-primary mt-2">Испрати</button>
+
+            </div>
+        </form>
+
+    </div>
+</section>

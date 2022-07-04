@@ -1,0 +1,48 @@
+
+
+
+<section id="appointment" class="appointment section-bg">
+    <div class="container">
+        <form class="form mt-5 m-lg-3 mb-5" id="filter-form">
+            <input id="patientSsn" type="text" name="patientSsn" placeholder="ЕМБГ на пациент..."/>
+            <button id="filter" type="submit">Пребарај</button>
+        </form>
+        <div class="container mb-4">
+            <div class="container mt-3">
+                <h6 class="text-danger" th:if="${hasError}" th:text="${error}"></h6>
+            </div>
+            <div class="row">
+                <div class="col-12" th:if="${visits.size() > 0}">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th scope="col">Име на пациент</th>
+                                <th scope="col">Презиме на пациент</th>
+                                <th scope="col">ЕМБГ на пациент</th>
+                                <th scope="col">Термин</th>
+                                <th scope="col">Име на доктор</th>
+                                <th scope="col">Презиме на доктор</th>
+                                <th scope="col">Специјалност</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="visit : ${visits}" class="product">
+                                <td th:text="${visit.getPatient().getName()}"></td>
+                                <td th:text="${visit.getPatient().getSurname()}"></td>
+                                <td th:text="${visit.getPatient.getSsn()}"></td>
+                                <td th:text="${#temporals.format(visit.getTerm(), 'dd-MM-yyyy HH:mm')}"></td>
+                                <td th:text="${visit.getDoctor().getName()}"></td>
+                                <td th:text="${visit.getDoctor().getSurname()}"></td>
+                                <td th:text="${visit.getDoctor().getSpecialty().getName()}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+

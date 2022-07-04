@@ -1,0 +1,70 @@
+<section id="doctors" class="doctors">
+    <div class="container">
+        <th:block sec:authorize="isAuthenticated()">
+            <form class="form mt-5 m-lg-3 mb-5" id="filter-form">
+                <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                    <input id="name" type="text" name="name" placeholder="Име на пациент..."/>
+                    <input id="surname" type="text" name="surname" placeholder="Презиме на пациент..."/>
+                </th:block>
+                <button id="filter" type="submit">Пребарај</button>
+            </form>
+        </th:block>
+
+    </div>
+
+    <div class="container mb-4">
+        <div class="container mt-3">
+            <h6 class="text-danger" th:if="${hasError}" th:text="${error}"></h6>
+        </div>
+        <div class="row">
+            <div class="col-12" th:if="${patients.size() > 0}">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">Име на пациент</th>
+                            <th scope="col">Презиме на пациент</th>
+                            <th scope="col">Број на здравствена легитимација</th>
+                            <th scope="col">ЕМБГ</th>
+                            <th scope="col">Име на доктор</th>
+                            <th scope="col">Презиме на доктор</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="patient : ${patients}" class="product">
+                            <td th:text="${patient.getName()}"></td>
+                            <td th:text="${patient.getSurname()}"></td>
+                            <td th:text="${patient.getUhid()}"></td>
+                            <td th:text="${patient.getSsn()}"></td>
+                            <td th:text="${patient.getDoctor().getName()}"></td>
+                            <td th:text="${patient.getDoctor().getSurname}"></td>
+                            <td class="text-right">
+                                <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                                    <form th:action="@{'/patients/{ssn}/delete' (ssn=${patient.getSsn()})}"
+                                          th:method="DELETE">
+                                        <button type="submit"
+                                                class="btn btn-block btn-danger">
+                                            Избриши
+                                        </button>
+                                    </form>
+                                </th:block>
+                            </td>
+
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col mb-3">
+                <div class="row">
+                    <div class="col-sm-12 col-md-12" sec:authorize="hasRole('ROLE_ADMIN')">
+                        <a href="/patients/add-form" class="btn btn-block btn-dark add-product-btn">
+                            Додади нов пациент
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</section>

@@ -1,0 +1,90 @@
+<section id="appointment" class="appointment section-bg" xmlns:th="http://www.w3.org/1999/html">
+    <div class="container">
+
+        <div class="section-title">
+            <h2>Закажете термин</h2>
+            <p>Преку оваа форма можете да го резервирате вашиот термин кај посакуваниот доктор.</p>
+        </div>
+        <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+            <form method="POST" role="form" class="php-email-form" action="/appointments/addByDoctor">
+        </th:block>
+        <th:block >
+            <form sec:authorize="hasRole('USER')" method="POST" role="form" class="php-email-form" action="/add">
+        </th:block>
+            <div class="row w-50">
+                <div class="col-md-12 form-group">
+                    <input id="id" type="hidden" name="id" th:value="(${visit} != null ? ${visit.getId()} : '')">
+                    <label for="name">Име на пациент</label>
+                    <input type="text"
+                           name="name"
+                           class="form-control"
+                           id="name"
+                           placeholder="Име на пациентот..."
+                           th:value="(${visit} != null ? ${visit.getPatient().getName()} : '')"
+                           data-rule="minlen:4"
+                           data-msg="Please enter at least 4 chars">
+                    <div class="validate"></div>
+                </div>
+
+                <div class="col-md-12 form-group">
+                    <label for="name">Презиме на пациент</label>
+                    <input type="text"
+                           name="surname"
+                           class="form-control"
+                           id="surname"
+                           placeholder="Презиме на пациентот..."
+                           th:value="(${visit} != null ? ${visit.getPatient().getSurname()} : '')"
+                           data-rule="minlen:4"
+                           data-msg="Please enter at least 4 chars">
+                    <div class="validate"></div>
+                </div>
+
+                <div class="col-md-12 form-group">
+                    <label for="name">ЕМБГ на пациент</label>
+                    <input type="text"
+                           name="ssn"
+                           class="form-control"
+                           id="ssn"
+                           required
+                           placeholder="ЕМБГ на пациентот..."
+                           th:value="(${visit} != null ? ${visit.getPatient().getSsn()} : '')"
+                           data-rule="minlen:4"
+                           data-msg="Please enter at least 4 chars">
+                    <div class="validate"></div>
+                </div>
+                <div class="col-md-12 form-group">
+                    <label for="name">Датум на преглед</label>
+                    <input
+                            required
+                            type="datetime-local"
+                            name="localDate"
+                            class="form-control datepicker"
+                            id="localDate"
+                            placeholder="Date"
+                            th:value="(${visit} != null ? ${visit.getTerm()} : '')"
+                            data-rule="minlen:4"
+                            data-msg="Please enter at least 4 chars">
+                    <div class="validate"></div>
+                </div>
+                <div class="form-group col-md-12">
+                    <label for="name">Избери доктор</label>
+                    <select name="doctorSsn" class="form-control">
+                        <option
+                                th:each="doktor : ${doctors}"
+                                th:value="${doktor.getSsn()}"
+                                th:text="${doktor.getNameAndSurname()}">
+                        </option>
+                    </select>
+                </div>
+                <div class="container mt-3">
+                    <h6 class="text-danger" th:if="${hasError}" th:text="${error}"></h6>
+                </div>
+            </div>
+            <button id="submit" type="submit" class="btn btn-primary">Submit</button>
+
+
+        </form>
+
+    </div>
+</section>
+

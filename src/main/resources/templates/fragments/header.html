@@ -1,0 +1,45 @@
+<header>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container px-5">
+        <a class="navbar-brand" href="/home">Мој термин</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="/home">Почетна</a></li>
+                <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                    <li class="nav-item"><a class="nav-link" href="/patients">Пациенти</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/specialties">Специјалности</a></li>
+
+                </th:block>
+                <li class="nav-item"><a class="nav-link" href="/doctors">Доктори</a></li>
+                <li class="nav-item"><a class="nav-link" href="/statistics">Ковид статистика</a></li>
+                <th:block sec:authorize="hasRole('ROLE_USER')">
+                <li class="nav-item"><a class="nav-link" href="/add-appointment-form">Закажи преглед</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/myappointments">Сите термини</a></li>
+                </th:block>
+                <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                    <li class="nav-item"><a class="nav-link" href="/appointments">Сите прегледи</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/referrals">Упати</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/diagnoses">Дијагнози</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/receipts">Рецепти</a></li>
+                </th:block>
+                <th:block sec:authorize="hasRole('ROLE_USER')">
+                    <li class="nav-item"><a class="nav-link" href="/contact">Контакт</a></li>
+                </th:block>
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <a class="nav-link" href="#">
+                        <th:block th:if="${#request.getRemoteUser() != null}"
+                                  th:text="${#request.getRemoteUser()}"></th:block>
+                    </a>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="/login" sec:authorize="!isAuthenticated()">Најава</a></li>
+                <li class="nav-item"><a class="nav-link" href="/register" sec:authorize="!isAuthenticated()">Регистрација</a></li>
+                <li class="nav-item"><a class="nav-link" href="/logout" sec:authorize="isAuthenticated()">Одлогирај се</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+</header>
+
+

@@ -1,0 +1,29 @@
+<section id="appointment" class="appointment section-bg">
+    <div class="container">
+
+        <div class="section-title">
+            <h2>Додади специјалност</h2>
+            <h5>Преку оваа форма докторот може да додава специјалности.</h5>
+        </div>
+
+        <form action="/specialties/add" method="POST" role="form" class="php-email-form">
+            <div class="row">
+
+                <div class="form-group">
+                    <label for="specialty">Специјалност</label>
+                    <input type="text"
+                           class="form-control"
+                           id="specialty"
+                           name="specialty"
+                           placeholder="Внесете ја специјалноста...">
+                </div>
+                <div class="container">
+                    <h6 class="text-danger" th:if="${hasError}" th:text="${error}"></h6>
+                </div>
+                <button id="submit" type="submit" class="btn btn-primary mt-2">Испрати</button>
+
+            </div>
+        </form>
+
+    </div>
+</section>

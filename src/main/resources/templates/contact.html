@@ -1,0 +1,76 @@
+
+
+
+<section id="contact" class="contact">
+    <div class="container">
+
+        <div class="section-title">
+            <h2>Контакт</h2>
+            <p>На оваа страна можете да контактирате со нас преку формата подолу.
+                Исто така прикажана е и мапа на болницата се со цел корисниците полесно да се снаоѓаат кога ќе доаѓаат на преглед.</p>
+        </div>
+    </div>
+
+    <div>
+        <div class="justify-content-center"><iframe style="border: 0;margin-left: 110px; width: 80%; height: 350px" id="gmap_canvas" src="https://maps.google.com/maps?q=Zan%20Mitrev&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe><br></div>
+    </div>
+
+    <div class="container">
+        <div class="row mt-5">
+
+            <div class="col-lg-4">
+                <div class="info">
+                    <div class="address">
+                        <i class="bi bi-geo-alt"></i>
+                        <h4>Локација:</h4>
+                        <p>Бледски Договор 8, Скопје 1000</p>
+                    </div>
+
+                    <div class="email">
+                        <i class="bi bi-envelope"></i>
+                        <h4>Емаил:</h4>
+                        <p>mojTerminKovid19@gmail.com</p>
+                    </div>
+
+                    <div class="phone">
+                        <i class="bi bi-phone"></i>
+                        <h4>Тел. број:</h4>
+                        <p>+389 73 703 703</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-8 mt-5 mt-lg-0">
+
+                <form th:method="POST" th:action="@{'/contact/send'}" class="php-email-form">
+                    <div class="row">
+                        <div class="col-md-6 form-group mt-3 mt-md-0">
+                            <input type="email" class="form-control" name="email" id="email" placeholder="Вашиот емаил..." required>
+                        </div>
+                    </div>
+                    <div class="form-group mt-3">
+                        <input type="text" class="form-control" name="subject" id="subject" placeholder="Наслов..." required>
+                    </div>
+                    <div class="form-group mt-3">
+                        <textarea class="form-control" name="message" rows="5" placeholder="Вашата порака..." required></textarea>
+                    </div>
+                    <div th:if="${hasError}"  class="my-3">
+                        <div th:text="${error}" class="text-danger"></div>
+                    </div>
+                    <div th:if="${isSuccess}"  class="my-3">
+                        <h6 th:text="${success}" class="text-danger"></h6>
+                    </div>
+                    <div class="text-center"><button type="submit">Прати порака</button></div>
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+
+

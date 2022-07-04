@@ -1,0 +1,76 @@
+
+
+<div class="container">
+    <div class="row">
+      <div class="col-md-5">
+        <form action="/doctors/add" method="POST">
+          <div class="form-group">
+            <input th:value="(${doctor} != null ? ${doctor.getSsn()} : '')" required type="hidden" name="editSsn" class="form-control" id="date" placeholder="Датум..." data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+            <div class="form-group">
+              <label for="name">Име</label>
+              <input type="text"
+                     class="form-control"
+                     id="name"
+                     name="name"
+                     th:value="(${doctor} != null ? ${doctor.getName()} : '')"
+                     required
+                     placeholder="Внесете име">
+            </div>
+
+            <div class="form-group">
+              <label for="surname">Презиме</label>
+              <input type="text"
+                     class="form-control"
+                     id="surname"
+                     name="surname"
+                     th:value="(${doctor} != null ? ${doctor.getSurname()} : '')"
+                     required
+                     placeholder="Внесете презиме">
+            </div>
+
+            <label for="ssn">ЕМБГ</label>
+            <input type="text"
+                   class="form-control"
+                   id="ssn"
+                   name="ssn"
+                   th:value="(${doctor} != null ? ${doctor.getSsn()} : '')"
+                   required
+                   placeholder="Внесете ЕМБГ">
+          </div>
+
+          <div class="form-group">
+            <label for="licenceNumber">Број на лиценца</label>
+            <input type="text"
+                   class="form-control"
+                   id="licenceNumber"
+                   name="licenceNumber"
+                   th:value="(${doctor} != null ? ${doctor.getLicenceNumber()} : '')"
+                   placeholder="Внесете број на лиценца">
+          </div>
+          <div class="form-group">
+            <label>Специјалност</label>
+            <select name="specialtyName" class="form-control">
+              <option value="" selected></option>
+              <option th:if="${doctor} != null"
+                      th:selected="${doctor.getSpecialty() != null && doctor.getSpecialty().getId() == specialty.getId()}"
+                      th:each="specialty : ${specialties}"
+                      th:value="${specialty.getName()}"
+                      th:text="${specialty.getName()}">
+              </option>
+              <option th:if="${doctor} == null"
+                      th:each="specialty : ${specialties}"
+                      th:value="${specialty.getName()}"
+                      th:text="${specialty.getName()}">
+              </option>
+
+            </select>
+          </div>
+          <div class="container">
+            <h6 class="text-danger" th:if="${hasError}" th:text="${error}"></h6>
+          </div>
+          <button id="submit" type="submit" class="btn btn-primary">Додади</button>
+          <a type="button" class="btn btn-primary" href="/doctors">Назад</a>
+        </form>
+      </div>
+    </div>
+  </div>

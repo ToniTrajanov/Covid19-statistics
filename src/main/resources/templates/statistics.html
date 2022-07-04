@@ -1,0 +1,155 @@
+
+
+<div class="container mt mt-5">
+    <div class="row">
+        <div class="col-sm-3">
+
+            <br />
+        </div>
+
+        <div class="col-md-6">
+            <div class="row  ">
+                <div class="col ">
+                    <div class="" style="width: 30vm">
+                        <h4 class="card-title mb-5" id="lastModified ">Последен пат ажурирано: <span id="current_date" th:text="${today}"></span></h4>
+                        <div class="justify-content-center">
+                            <div class="row justify-content-center">
+                                <div class="col-md-6">
+                                    <h6>Вкупно случаи</h6>
+                                    <div id="cases"></div>
+                                    <br/>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6>Вкупно оздравени</h6>
+                                    <div id="recovered"></div>
+                                    <br/>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6>Денешни случаи</h6>
+                                    <div id="todayCases"></div>
+                                    <br/>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6>Оздравени денес</h6>
+                                    <div id="todayRecovered"></div>
+                                    <br/>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6>Вкупно починати</h6>
+                                    <div id="deaths"></div>
+                                    <br/>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6>Критични случаи</h6>
+                                    <div id="critical"></div>
+                                    <br/>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6>Починати денес</h6>
+                                    <div id="todayDeaths"></div>
+                                    <br/>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6>Вкупно тестови</h6>
+                                    <div id="tests"></div>
+                                    <br/>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <h6>Активни случаи</h6>
+                                    <div id="active"></div>
+                                    <br/>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6>Население</h6>
+                                    <div id="population"></div>
+                                    <br/>
+                                </div>
+                            </div>
+                        </div>
+                        <br/>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+</div>
+</div>
+</div>
+
+
+<script>
+    const app = {
+        init: () => {
+            app.fetchWeather()
+        },
+        fetchWeather: () => {
+
+            let url = 'https://corona.lmao.ninja/v2/countries/macedonia?yesterday&strict&query%20';
+            fetch(url, {
+                method: 'GET',
+                headers: {
+                    Accept: 'application/json',
+                }
+            })
+            fetch(url)
+                .then((resp) => {
+                    if (!resp.ok) throw new Error(resp.statusText);
+                    return resp.json();
+                })
+                .then((data) => {
+                    app.showStatistics(data);
+                })
+                .catch(console.err);
+        },
+        showStatistics: (resp) => {
+
+            let deaths = document.getElementById("deaths")
+            deaths.innerText = resp.deaths
+
+            let cases = document.getElementById("cases")
+            cases.innerText = resp.cases
+
+            let todayCases = document.getElementById("todayCases")
+            todayCases.innerText = resp.todayCases
+
+            let todayDeaths = document.getElementById("todayDeaths")
+            todayDeaths.innerText = resp.todayDeaths
+
+            let recovered = document.getElementById("recovered")
+            recovered.innerText = resp.recovered
+
+            let todayRecovered = document.getElementById("todayRecovered")
+            todayRecovered.innerText = resp.todayRecovered
+
+            let active = document.getElementById("active")
+            active.innerText = resp.active
+
+            let critical = document.getElementById("critical")
+            critical.innerText = resp.critical
+
+            let tests = document.getElementById("tests")
+            tests.innerText = resp.tests
+
+            let population = document.getElementById("population")
+            population.innerText = resp.population
+        }
+    }
+
+    app.init()
+
+</script>
+</body>
+</html>

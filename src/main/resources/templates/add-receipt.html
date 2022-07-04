@@ -1,0 +1,106 @@
+<section id="appointment" class="appointment section-bg">
+    <div class="container">
+
+        <div class="section-title">
+            <h2>Креирај рецепт</h2>
+            <h5>Преку оваа форма докторот може да креира рецепти за дијагнози.</h5>
+        </div>
+
+        <form action="/receipts/add" method="POST" role="form" class="php-email-form">
+            <div class="row">
+                <input id="id" type="hidden" name="id" th:value="(${receipt} != null ? ${receipt.getId()} : '')">
+                <input id="diagnoseId" type="hidden" name="diagnoseId" th:value="(${diagnose} != null ? ${diagnose.getDiagnoseId()} : '')">
+                <div class="form-group">
+                    <label for="therapy">Терапија</label>
+                    <input type="text"
+                           class="form-control"
+                           id="therapy"
+                           name="therapy"
+                           th:value="(${receipt} != null ? ${receipt.getTherapy()} : '')"
+                           required
+                           placeholder="Внесете ја терапијата...">
+                </div>
+                <div class="form-group">
+                    <label for="date">Термин</label>
+                    <input type="datetime-local"
+                           class="form-control"
+                           id="date"
+                           name="date"
+                           required
+                           th:each="visit: ${visits}" th:if="${diagnose.getVisits().contains(visit)}"
+                           th:value="${visit.getTerm()}"
+
+                    >
+                </div>
+                <div class="form-group">
+                    <label for="patientName">Име на пациент</label>
+                    <input type="text"
+                           class="form-control"
+                           id="patientName"
+                           name="patientName"
+                           th:each="visit: ${visits}" th:if="${diagnose.getVisits().contains(visit)}"
+                           th:value="${visit.getPatient().getName()}"
+                           >
+                </div>
+                <div class="form-group">
+                    <label for="patientName">Презиме на пациент</label>
+                    <input type="text"
+                           class="form-control"
+                           id="patientSurname"
+                           name="patientSurname"
+                           th:each="visit: ${visits}" th:if="${diagnose.getVisits().contains(visit)}"
+                           th:value="${visit.getPatient().getSurname()}"
+                           >
+                </div>
+
+                <div class="form-group">
+                    <label for="doctorName">Име на доктор</label>
+                    <input type="text"
+                           class="form-control"
+                           id="doctorName"
+                           name="doctorName"
+                           th:each="visit: ${visits}" th:if="${diagnose.getVisits().contains(visit)}"
+                           th:value="${visit.getDoctor().getName()}"
+                           >
+                </div>
+
+                <div class="form-group">
+                    <label for="doctorSurname">Презиме на доктор</label>
+                    <input type="text"
+                           class="form-control"
+                           id="doctorSurname"
+                           name="doctorSurname"
+                           th:each="visit: ${visits}" th:if="${diagnose.getVisits().contains(visit)}"
+                           th:value="${visit.getDoctor().getSurname()}"
+                           >
+                </div>
+                <div class="form-group">
+                    <label for="doctorSpecialty">Специјалност на доктор</label>
+                    <input type="text"
+                           class="form-control"
+                           id="doctorSpecialty"
+                           name="doctorSpecialty"
+                           th:each="visit: ${visits}" th:if="${diagnose.getVisits().contains(visit)}"
+                           th:value="${visit.getDoctor().getSpecialty().getName()}"
+                           >
+                </div>
+                <div class="form-group">
+                    <label for="diagnoseName">Име на дијагноза</label>
+                    <input type="text"
+                           class="form-control"
+                           id="diagnoseName"
+                           name="diagnoseName"
+                           th:value="${diagnose.getName()}"
+                           >
+                </div>
+
+                <div class="container">
+                    <h6 class="text-danger" th:if="${hasError}" th:text="${error}"></h6>
+                </div>
+                <button id="submit" type="submit" class="btn btn-primary mt-2">Испрати</button>
+
+            </div>
+        </form>
+
+    </div>
+</section>

@@ -1,0 +1,91 @@
+<section id="appointment" class="appointment section-bg">
+    <div class="container">
+
+        <div class="section-title">
+            <h2>Креирај упат</h2>
+            <h5>Преку оваа форма докторот може да дава упати на пациенти.</h5>
+        </div>
+
+        <form action="/referrals/add" method="POST" role="form" class="php-email-form">
+            <div class="row">
+                <input id="id" type="hidden" name="id" th:value="(${referral} != null ? ${referral.getId()} : '')">
+                <div class="col-md-4 form-group">
+                    <input th:value="(${referral} != null ? ${referral.getTerm()} : '')" required type="datetime-local" name="localDate" class="form-control" id="date" placeholder="Датум..." data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+                    <div class="validate"></div>
+                </div>
+                <div class="form-group">
+                    <label for="patientName">Име на пациентот</label>
+                    <input type="text"
+                           class="form-control"
+                           id="patientName"
+                           name="patientName"
+                           th:value="(${referral} != null ? ${referral.getSsnPatient().getName()} : '')"
+                           required
+                           placeholder="Внесете го името на пациентот...">
+                </div>
+                <div class="form-group">
+                    <label for="patientSurname">Презиме на пациентот</label>
+                    <input type="text"
+                           class="form-control"
+                           id="patientSurname"
+                           name="patientSurname"
+                           th:value="(${referral} != null ? ${referral.getSsnPatient.getSurname()} : '')"
+                           required
+                           placeholder="Внесете го презимето на пациентот...">
+                </div>
+                <div class="form-group">
+                    <label for="patientSsn">ЕМБГ на пациентот</label>
+                    <input type="text"
+                           class="form-control"
+                           id="patientSsn"
+                           name="patientSsn"
+                           th:value="(${referral} != null ? ${referral.getSsnPatient.getSsn()} : '')"
+                           required
+                           placeholder="Внесете ЕМБГ на пациентот...">
+                </div>
+                <div class="form-group">
+                    <label>Доктор кој упатува</label>
+                    <select name="doctorForward" class="form-control">
+                        <option value="" selected></option>
+                        <option th:if="${referral} != null"
+                                th:selected="${referral.getForwardBy() != null && referral.getForwardBy().getSsn() == doctor.getSsn()}"
+                                th:each="doctor : ${doctors}"
+                                th:value="${doctor.getSsn()}"
+                                th:text="${doctor.getNameAndSurname()}">
+                        </option>
+                        <option th:if="${referral} == null"
+                                th:each="doctor : ${doctors}"
+                                th:value="${doctor.getSsn()}"
+                                th:text="${doctor.getNameAndSurname()}">
+                        </option>
+
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Доктор кон кој е упатено</label>
+                    <select name="doctorTo" class="form-control">
+                        <option value="" selected></option>
+                        <option th:if="${referral} != null"
+                                th:selected="${referral.getForwardTo() != null && referral.getForwardTo().getSsn() == doctor.getSsn()}"
+                                th:each="doctor : ${doctors}"
+                                th:value="${doctor.getSsn()}"
+                                th:text="${doctor.getNameAndSurname()}">
+                        </option>
+                        <option th:if="${referral} == null"
+                                th:each="doctor : ${doctors}"
+                                th:value="${doctor.getSsn()}"
+                                th:text="${doctor.getNameAndSurname()}">
+                        </option>
+
+                    </select>
+                </div>
+                <div class="container">
+                    <h6 class="text-danger" th:if="${hasError}" th:text="${error}"></h6>
+                </div>
+            <button id="submit" type="submit" class="btn btn-primary mt-2">Испрати</button>
+
+            </div>
+        </form>
+
+    </div>
+</section>

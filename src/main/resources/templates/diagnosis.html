@@ -1,0 +1,104 @@
+
+
+
+<section id="appointment" class="appointment section-bg">
+  <div class="container">
+
+    <div class="container mb-4">
+      <form class="form mt-5 m-lg-3 mb-5" id="filter-form">
+        <input id="diagnoseName" type="text" placeholder="Име на дијагноза..." name="diagnoseName"/>
+        <button id="filter" type="submit">Пребарај</button>
+      </form>
+      <div class="row">
+        <div class="container mt-3">
+          <h6 class="text-danger" th:if="${hasError}" th:text="${error}"></h6>
+        </div>
+        <div class="col-12" th:if="${diagnoses.size() > 0}">
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+              <tr>
+                <th scope="col">Име на пациент</th>
+                <th scope="col">Презиме на пациент</th>
+                <th scope="col">ЕМБГ на пациентот</th>
+                <th scope="col">Име на дијагноза</th>
+                <th scope="col">Опис на дијагноза</th>
+                <th scope="col">Термин на преглед</th>
+                <th scope="col">Име на доктор </th>
+                <th scope="col">Презиме на доктор </th>
+                <th scope="col">Специјалност </th>
+
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:each="diagnose : ${diagnoses}" class="product">
+
+                <td th:each="visit: ${visits}" th:if="${diagnose.getVisits().contains(visit)}"
+                        th:text="${visit.getPatient().getName()}"></td>
+                <td th:each="visit: ${visits}" th:if="${diagnose.getVisits().contains(visit)}"
+                    th:text="${visit.getPatient().getSurname()}"></td>
+                <td th:each="visit: ${visits}" th:if="${diagnose.getVisits().contains(visit)}"
+                    th:text="${visit.getPatient().getSsn()}"></td>
+                  <td th:text="${diagnose.getName()}"></td>
+                <td th:text="${diagnose.getDescription()}"></td>
+                <td th:each="visit: ${visits}" th:if="${diagnose.getVisits().contains(visit)}"
+                    th:text="${#temporals.format(visit.getTerm(), 'dd-MM-yyyy HH:mm')}"></td>
+                <td th:each="visit: ${visits}" th:if="${diagnose.getVisits().contains(visit)}"
+                    th:text="${visit.getDoctor().getName()}"></td>
+                <td th:each="visit: ${visits}" th:if="${diagnose.getVisits().contains(visit)}"
+                    th:text="${visit.getDoctor().getSurname()}"></td>
+                <td th:each="visit: ${visits}" th:if="${diagnose.getVisits().contains(visit)}"
+                    th:text="${visit.getDoctor().getSpecialty().getName()}"></td>
+
+                <td class="text-right">
+                  <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                    <form th:action="@{'/diagnoses/{id}/edit-form' (id=${diagnose.getDiagnoseId()})}">
+                      <button type="submit"
+                              class="btn btn-block btn-dark edit-form">
+                        Промени
+                      </button>
+                    </form>
+                  </th:block>
+                  <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                    <form th:action="@{'/diagnoses/{id}/delete' (id=${diagnose.getDiagnoseId()})}" th:method="DELETE">
+                      <button type="submit"
+                              class="btn btn-block btn-danger">
+                        Избриши
+                      </button>
+                    </form>
+                  </th:block>
+                  <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                    <form th:action="@{'/receipts/{id}/add-form' (id=${diagnose.getDiagnoseId()})}">
+                      <button type="submit"
+                              class="btn btn-block btn-dark">
+                        Рецепт
+                      </button>
+                    </form>
+                  </th:block>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="col mb-3">
+          <div class="row">
+            <div class="col-sm-12 col-md-12">
+              <a href="/receipts" class="btn btn-block btn-dark add-product-btn">
+                Рецепти
+              </a>
+              <a href="/diagnoses/add-form" class="btn btn-block btn-dark add-product-btn">
+                Креирај дијагноза
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+  </div>
+</section>
+

@@ -1,0 +1,93 @@
+
+
+
+<section id="appointment" class="appointment section-bg">
+  <div class="container">
+
+    <div class="container mb-4">
+      <form class="form mt-5 m-lg-3 mb-5" id="filter-form">
+        <input id="patientSsn" type="text" placeholder="ЕМБГ на пациент..." name="patientSsn"/>
+        <button id="filter" type="submit">Пребарај</button>
+      </form>
+      <div class="row">
+        <div class="container mt-3">
+          <h6 class="text-danger" th:if="${hasError}" th:text="${error}"></h6>
+        </div>
+        <div class="col-12" th:if="${referrals.size() > 0}">
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+              <tr>
+                <th scope="col">Име на пациент</th>
+                <th scope="col">Презиме на пациент</th>
+                <th scope="col">Матичен број на пациент</th>
+                <th scope="col">Термин</th>
+                <th scope="col">Име на доктор кој препраќа</th>
+                <th scope="col">Презиме на доктор кој препраќа</th>
+                <th scope="col">Специјалност на доктор</th>
+                <th scope="col">Име на доктор каде е препратен</th>
+                <th scope="col">Презиме на доктор каде е препратен</th>
+                <th scope="col">Специјалност на доктор</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:each="referral : ${referrals}" class="product">
+                <td th:text="${referral.getSsnPatient().getName()}"></td>
+                <td th:text="${referral.getSsnPatient().getSurname()}"></td>
+                <td th:text="${referral.getSsnPatient().getSsn()}"></td>
+                <td th:text="${#temporals.format(referral.getTerm(), 'dd-MM-yyyy HH:mm')}"></td>
+                <td th:text="${referral.getForwardBy().getName()}"></td>
+                <td th:text="${referral.getForwardBy().getSurname()}"></td>
+                <td th:text="${referral.getForwardBy().getSpecialty().getName()}"></td>
+                <td th:text="${referral.getForwardTo().getName()}"></td>
+                <td th:text="${referral.getForwardTo().getSurname()}"></td>
+                <td th:text="${referral.getForwardTo().getSpecialty().getName()}"></td>
+                <td class="text-right">
+                  <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                    <form th:action="@{'/referrals/{id}/edit-form' (id=${referral.getId()})}">
+                      <button type="submit"
+                              class="btn btn-block btn-dark add-product-btn">
+                        Промени
+                      </button>
+                    </form>
+                  </th:block>
+                  <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                    <form th:action="@{'/referrals/{id}/delete' (id=${referral.getId()})}" th:method="DELETE">
+                      <button type="submit"
+                              class="btn btn-block btn-danger">
+                        Избриши
+                      </button>
+                    </form>
+                  </th:block>
+                  <th:block sec:authorize="hasRole('ROLE_ADMIN')">
+                    <form th:action="@{'/referrals/{id}/pdf/generate' (id=${referral.getId()})}">
+                      <button type="submit"
+                              class="btn btn-block btn-dark add-product-btn">
+                        Преземи
+                      </button>
+                    </form>
+                  </th:block>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="col mb-3">
+          <div class="row">
+            <div class="col-sm-12 col-md-12">
+              <a href="/referrals/add-referral" class="btn btn-block btn-dark add-product-btn">
+                Креирај упат
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+  </div>
+</section>
+
